@@ -18,4 +18,6 @@ import Foundation
     public let lastDigits: String
     public let holderName: String?
     public let cardExpiry: CardExpiry?
+    public let cardCategory: String?
+    public let cardType: String?
 }
