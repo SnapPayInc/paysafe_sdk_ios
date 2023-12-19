@@ -53,12 +53,8 @@ class ApplePayViewController: UIViewController {
     
     func setupMerchantConfiguration() {
         PaysafeSDK.currentEnvironment = .test
-        PaysafeSDK.merchantConfiguration = PaysafeSDK.MerchantConfiguration(username: "<Your Merchant User ID>",
-                                                                            password: "<Your Merchant Paysafe Password>",
-                                                                            accountId: "<Your Merchant Account Number>")
-        PaysafeSDK.applePayMerchantConfiguration = PaysafeSDK.ApplePayMerchantConfiguration(applePayMerchantId: "<Your Merchant ApplePay ID>",
-                                                                                            countryCode: "US",
-                                                                                            currencyCode: "USD")
+        PaysafeSDK.merchantConfiguration = PaysafeSDK.MerchantConfiguration(username: "OT-1083770", password: "B-qa2-0-654c0fad-0-302c02144e1295eb43fb36e3235aa204ae1711195263c263021477566ff26cfeaf58627056789348747a0b5f890c", accountId: "1002710870")
+        PaysafeSDK.applePayMerchantConfiguration = PaysafeSDK.ApplePayMerchantConfiguration(applePayMerchantId: "merchant.ca.snappay.snaplii", countryCode: "US", currencyCode: "USD")
     }
     
     override func viewDidLoad() {
