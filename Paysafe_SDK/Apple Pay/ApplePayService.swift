@@ -71,6 +71,8 @@ import PassKit
             summaryItems.append(PKPaymentSummaryItem(label: "Shipping", amount: method.price))
         case .electronic:
             break
+        case .none:
+            break
         }
 
         summaryItems.append(PKPaymentSummaryItem(label: cartDetails.payTo, amount: merchandise.total()))
@@ -188,7 +190,6 @@ extension ApplePayService: ApplePayServiceProtocol {
         request.currencyCode = applePayMerchantConfiguration.currencyCode
 
         request.paymentSummaryItems = calculateSummaryItemsFrom(merchandise: product, cartDetails: cartDetails)
-        request.requiredShippingAddressFields = .all
 
         switch product.shippingType {
         case .delivered:
@@ -207,7 +208,9 @@ extension ApplePayService: ApplePayServiceProtocol {
 
         case .electronic:
             request.requiredShippingAddressFields = .email
-         }
+        case .none:
+            break
+        }
 
         do {
             try paymentViewControllerType.present(request: request,

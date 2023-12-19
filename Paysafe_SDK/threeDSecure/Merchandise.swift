@@ -52,19 +52,19 @@ public enum ShippingType {
     let price: NSDecimalNumber
     let amount: NSInteger
     let productDescription: String
-    var shippingType: ShippingType
+    var shippingType: ShippingType?
 
     public required init(image: UIImage?,
                          title: String,
                          price: NSDecimalNumber,
                          amount: NSInteger,
-                         shippingMethod: ShippingMethod?,
+                         shippingType: ShippingType?,
                          description: String) {
         self.image = image
         self.title = title
         self.price = price
         self.amount = amount
-        self.shippingType = ShippingType(method: shippingMethod)
+        self.shippingType = shippingType
         self.productDescription = description
     }
 
@@ -80,6 +80,8 @@ public enum ShippingType {
         case .delivered(let method):
             return calculetedPrice.adding(method.price)
         case .electronic:
+            return calculetedPrice
+        case .none:
             return calculetedPrice
         }
     }
