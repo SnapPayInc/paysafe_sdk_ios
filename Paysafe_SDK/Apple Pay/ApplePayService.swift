@@ -63,17 +63,18 @@ import PassKit
             return summaryItems
         }
 
-        summaryItems.append(PKPaymentSummaryItem(label: merchandise.title, amount: merchandise.price))
-        summaryItems.append(PKPaymentSummaryItem(label: "Amount price", amount: merchandise.priceForAmount()))
-
-        switch merchandise.shippingType {
-        case .delivered(let method):
-            summaryItems.append(PKPaymentSummaryItem(label: "Shipping", amount: method.price))
-        case .electronic:
-            break
-        case .none:
-            break
-        }
+//        We do not need the data below for now.
+//        summaryItems.append(PKPaymentSummaryItem(label: merchandise.title, amount: merchandise.price))
+//        summaryItems.append(PKPaymentSummaryItem(label: "Amount price", amount: merchandise.priceForAmount()))
+//
+//        switch merchandise.shippingType {
+//        case .delivered(let method):
+//            summaryItems.append(PKPaymentSummaryItem(label: "Shipping", amount: method.price))
+//        case .electronic:
+//            break
+//        case .none:
+//            break
+//        }
 
         summaryItems.append(PKPaymentSummaryItem(label: cartDetails.payTo, amount: merchandise.total()))
 
