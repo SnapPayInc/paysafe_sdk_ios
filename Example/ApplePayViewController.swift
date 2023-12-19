@@ -81,14 +81,15 @@ class ApplePayViewController: UIViewController {
             return
         }
         
-        let product = Merchandise(image: nil,
-                                  title: "Llama California Shipping",
+        let image = UIImage(named: "ellipsis")
+        let product = Merchandise(image: image,
+                                  title: "title",
                                   price: NSDecimalNumber(value: price),
                                   amount: amount,
-                                  shippingMethod: ApplePayViewController.shippingMethodOptions.first,
-                                  description: "3-5 Business Days")
+                                  shippingType: .none,
+                                  description: "")
         
-        let cartData = CartDetails(cartId: "123423", payTo: "Llama Services, Inc.", shippingOptions: ApplePayViewController.shippingMethodOptions)
+        let cartData = CartDetails(cartId: "123423", payTo: "Payto......", shippingOptions:[])
         
         isLoading = true
         applePayService.beginPayment(product, cartDetails: cartData) { [weak self] result in
