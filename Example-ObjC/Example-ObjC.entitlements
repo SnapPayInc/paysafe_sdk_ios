@@ -4,7 +4,9 @@
 <dict>
 	<key>com.apple.developer.in-app-payments</key>
 	<array>
-		<string>merchant.com.paysafe.documentation</string>
+		<string>merchant.ca.snappay.snaplii</string>
+		<string>merchant.ca.snappay.snaplii.test</string>
+		<string>merchant.ca.snappay.snaplii.test2</string>
 	</array>
 </dict>
 </plist>

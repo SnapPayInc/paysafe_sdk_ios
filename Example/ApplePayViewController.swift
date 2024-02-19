@@ -53,8 +53,8 @@ class ApplePayViewController: UIViewController {
     
     func setupMerchantConfiguration() {
         PaysafeSDK.currentEnvironment = .test
-        PaysafeSDK.merchantConfiguration = PaysafeSDK.MerchantConfiguration(username: "OT-1083770", password: "B-qa2-0-654c0fad-0-302c02144e1295eb43fb36e3235aa204ae1711195263c263021477566ff26cfeaf58627056789348747a0b5f890c", accountId: "1002710870")
-        PaysafeSDK.applePayMerchantConfiguration = PaysafeSDK.ApplePayMerchantConfiguration(applePayMerchantId: "merchant.ca.snappay.snaplii", countryCode: "US", currencyCode: "USD")
+        PaysafeSDK.merchantConfiguration = PaysafeSDK.MerchantConfiguration(username: "OT-484780", password: "B-qa2-0-5ef60470-0-302c02146c9e3f56c5b3f75f1294c95902614367b9b8e3cc0214731f3f0c77da66bbd0ba20c0af58251edd95f997", accountId: "1001739760")
+        PaysafeSDK.applePayMerchantConfiguration = PaysafeSDK.ApplePayMerchantConfiguration(applePayMerchantId: "merchant.ca.snappay.snaplii.test", countryCode: "CA", currencyCode: "CAD")
     }
     
     override func viewDidLoad() {
@@ -69,7 +69,7 @@ class ApplePayViewController: UIViewController {
             errorMessageLabel.isHidden = false
         }
         
-        amountTextField.text = "20"
+        amountTextField.text = "1"
         singleItemPriceTextField.text = "0.01"
         currencyLabel.text = PaysafeSDK.applePayMerchantConfiguration?.currencyCode
         isLoading = false
@@ -157,6 +157,7 @@ class ApplePayViewController: UIViewController {
             case let .failure(error):
                 self?.displayError(error)
             case .success(let info):
+                print(info.paymentToken)
                 self?.displayAlert(title: Constants.successfulTransactionTitle, message: Constants.successfulTransactionMessage + info.paymentToken)
             }
         }
