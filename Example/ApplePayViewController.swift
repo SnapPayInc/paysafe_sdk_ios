@@ -158,6 +158,8 @@ class ApplePayViewController: UIViewController {
                 self?.displayError(error)
             case .success(let info):
                 print(info.paymentToken)
+                let pasteboard = UIPasteboard.general
+                pasteboard.string = info.paymentToken
                 self?.displayAlert(title: Constants.successfulTransactionTitle, message: Constants.successfulTransactionMessage + info.paymentToken)
             }
         }
