@@ -52,9 +52,9 @@ class ApplePayViewController: UIViewController {
     }
     
     func setupMerchantConfiguration() {
-        PaysafeSDK.currentEnvironment = .test
-        PaysafeSDK.merchantConfiguration = PaysafeSDK.MerchantConfiguration(username: "OT-484780", password: "B-qa2-0-5ef60470-0-302c02146c9e3f56c5b3f75f1294c95902614367b9b8e3cc0214731f3f0c77da66bbd0ba20c0af58251edd95f997", accountId: "1001739760")
-        PaysafeSDK.applePayMerchantConfiguration = PaysafeSDK.ApplePayMerchantConfiguration(applePayMerchantId: "merchant.ca.snappay.snaplii.test", countryCode: "CA", currencyCode: "CAD")
+//        PaysafeSDK.currentEnvironment = .test
+        PaysafeSDK.merchantConfiguration = PaysafeSDK.MerchantConfiguration(username: "SUT-301922", password: "B-p1-0-60492a66-0-302d0215008540ec055d608f210b21b41ba76066b21172ea5002143891d4a5fb1d375a37776f2cf4c13f51d1a39ab9", accountId: "1002689612")
+        PaysafeSDK.applePayMerchantConfiguration = PaysafeSDK.ApplePayMerchantConfiguration(applePayMerchantId: "merchant.ca.snappay.snaplii", countryCode: "CA", currencyCode: "CAD")
     }
     
     override func viewDidLoad() {
@@ -142,7 +142,11 @@ class ApplePayViewController: UIViewController {
                 }
             }
             #else
-            guard let applePayInfo = createTokenWithPayment(payment) else {
+            let postalCode = payment.billingContact?.postalAddress?.postalCode
+            print(postalCode)
+            let paymentData = payment.token.paymentData
+            let applePayInfo = ApplePayTokenWrapper.create(from: paymentData)
+            guard let postalCode = postalCode, let applePayInfo = createTokenWithPayment(payment) else {
                 self.displayAlert(title: nil, message: Constants.simulatorNotSupportedMessage)
                 return
             }

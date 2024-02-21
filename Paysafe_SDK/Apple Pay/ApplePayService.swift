@@ -189,6 +189,12 @@ extension ApplePayService: ApplePayServiceProtocol {
         request.merchantCapabilities = .capability3DS
         request.countryCode = applePayMerchantConfiguration.countryCode
         request.currencyCode = applePayMerchantConfiguration.currencyCode
+        if #available(iOS 11.0, *) {
+            request.requiredBillingContactFields = [.postalAddress]
+        } else {
+            // Fallback on earlier versions
+        }
+
 
         request.paymentSummaryItems = calculateSummaryItemsFrom(merchandise: product, cartDetails: cartDetails)
 

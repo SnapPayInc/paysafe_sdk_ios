@@ -131,6 +131,12 @@ class ApplePayTests: XCTestCase {
         request.supportedNetworks = [.amex, .masterCard, .visa]
         request.paymentSummaryItems = [PKPaymentSummaryItem(label: cartData.payTo, amount: NSDecimalNumber(value: 50))]
         request.merchantCapabilities = .capability3DS
+        if #available(iOS 11.0, *) {
+            request.requiredBillingContactFields = [.postalAddress]
+        } else {
+            // Fallback on earlier versions
+        }
+
 
         let paymentViewControllerType = MockPKPaymentAuthorizationExtensionProtocol.self
         let applePayService = ApplePayService(applePayMerchantConfiguration: applePayMerchantConfiguration,
