@@ -214,7 +214,9 @@ extension ApplePayService: ApplePayServiceProtocol {
             request.shippingMethods = shippingMethods
 
         case .electronic:
-            request.requiredShippingAddressFields = .email
+//      email is not necessary
+//            request.requiredShippingAddressFields = .email
+            break
         case .none:
             break
         }
