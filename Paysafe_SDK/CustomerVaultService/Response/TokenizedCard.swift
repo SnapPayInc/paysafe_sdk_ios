@@ -20,4 +20,5 @@ import Foundation
     public let cardExpiry: CardExpiry?
     public let cardCategory: String?
     public let cardType: String?
+    public let issuingCountry: String?
 }
