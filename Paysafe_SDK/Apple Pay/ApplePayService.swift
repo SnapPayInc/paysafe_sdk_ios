@@ -197,10 +197,11 @@ extension ApplePayService: ApplePayServiceProtocol {
 
 
         request.paymentSummaryItems = calculateSummaryItemsFrom(merchandise: product, cartDetails: cartDetails)
+//        request.requiredShippingContactFields = [.emailAddress, .name, .phoneNumber, .phoneticName, .postalAddress]
 
         switch product.shippingType {
         case .delivered:
-            request.requiredShippingAddressFields = .postalAddress
+            request.requiredShippingContactFields = [.postalAddress]
 
             var shippingMethods = [PKShippingMethod]()
 
@@ -212,10 +213,10 @@ extension ApplePayService: ApplePayServiceProtocol {
             }
 
             request.shippingMethods = shippingMethods
-
+            break
         case .electronic:
 //      email is not necessary
-//            request.requiredShippingAddressFields = .email
+//            request.requiredShippingContactFields = [.emailAddress]
             break
         case .none:
             break
