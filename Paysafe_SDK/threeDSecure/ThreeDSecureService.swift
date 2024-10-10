@@ -93,6 +93,7 @@ import CardinalMobile
 
     private func getJWTForCardinal(cardBin: String, completion: @escaping (Result<String, Error>) -> Void) {
         guard let merchantConfiguration = self.merchantConfiguration else {
+            WebServiceHandler.postNotificationForSDKError(correlationId, Errors.invalidMerchantConfigurationError)
             completion(.failure(Errors.invalidMerchantConfigurationError))
             return
         }
@@ -178,6 +179,7 @@ import CardinalMobile
                         self?.logger.log(message: "DeviceFingerPrinting failed with: \(Errors.ErrorType.internalSDKError)",
                             eventType: .internalSDKError,
                             correlationId: initializeCorrelationId)
+                        WebServiceHandler.postNotificationForSDKError(initializeCorrelationId, Errors.internalSDKError)
                         completion(.failure(Errors.internalSDKError))
         })
     }
@@ -192,6 +194,7 @@ extension ThreeDSecureService: CardinalValidationDelegate {
     public func cardinalSession(cardinalSession session: CardinalSession?, stepUpValidated validateResponse: CardinalResponse?, serverJWT: String?) {
         guard let challengePayload = challengePayload else {
             logger.log(message: Errors.ErrorType.internalSDKError, eventType: .internalSDKError, correlationId: correlationId)
+            WebServiceHandler.postNotificationForSDKError(correlationId, Errors.internalSDKError)
             onChallengeCompleted?(.failure(Errors.internalSDKError))
             return
         }
@@ -292,6 +295,7 @@ extension ThreeDSecureService {
     public func challenge(sdkChallengePayload: String, completion: @escaping ResultCallback) {
         guard let challengePayload = ChallengePayload.challenge(from: sdkChallengePayload) else {
             logger.log(message: Errors.ErrorType.invalidOptions + "sdkChallengePayload", eventType: .validationError, correlationId: correlationId)
+            WebServiceHandler.postNotificationForSDKError(correlationId, Errors.invalidOptions("sdkChallengePayload"))
             completion(.failure(Errors.invalidOptions("sdkChallengePayload")))
             return
         }

@@ -123,11 +123,13 @@ class WebServiceHandler: NSObject, WebServiceHandlerProtocol {
                                     correlationId: String,
                                     completion: @escaping (Result<Data, Error>) -> Void) {
         guard let requestURL = URL(string: urlString) else {
+            Self.postNotificationForSDKError(correlationId, Errors.internalSDKError)
             completion(.failure(Errors.internalSDKError))
             return
         }
 
         guard let authorizedData = authorizedData else {
+            Self.postNotificationForSDKError(correlationId, Errors.invalidMerchantConfigurationError)
             completion(.failure(Errors.invalidMerchantConfigurationError))
             return
         }
@@ -164,27 +166,46 @@ class WebServiceHandler: NSObject, WebServiceHandlerProtocol {
                                           error: Error?,
                                           completion: @escaping (Result<Data, Error>) -> Void) {
             guard error == nil else {
+                Self.postNotificationForSDKError(nil, Errors.noResponseFromServerError)
                 completion(.failure(Errors.noResponseFromServerError))
                 return
             }
+        
+            let headers = (response as? HTTPURLResponse)?.allHeaderFields
+            let correlationId = headers?["X-INTERNAL-CORRELATION-ID"] as? String
 
             guard let httpResponse = response as? HTTPURLResponse else {
+                Self.postNotificationForSDKError(correlationId, Errors.invalidResponseError)
                 completion(.failure(Errors.invalidResponseError))
                 return
             }
-
+        
             guard (200...299).contains(httpResponse.statusCode) || httpResponse.statusCode == 304 else {
                 let error = errorMapper.getError(httpResponse: httpResponse,
                                                  data: data)
+                Self.postNotificationForSDKError(correlationId, error as NSError)
                 completion(.failure(error))
                 return
             }
 
             guard let data = data else {
+                Self.postNotificationForSDKError(correlationId, Errors.internalSDKError)
                 completion(.failure(Errors.internalSDKError))
                 return
             }
 
             completion(.success(data))
+    }
+    
+    public static func postNotificationForSDKError(_ correlationId: String?, _ error: NSError?) {
+        NotificationCenter.default.post(
+            name: Notification.Name("PaysafeSDKError"),
+            object: nil,
+            userInfo: [
+                "correlationId" : correlationId ?? "",
+                "code" : String(error?.code ?? 0),
+                "message" : error?.userInfo[NSLocalizedDescriptionKey] ?? "",
+            ]
+        )
     }
 }

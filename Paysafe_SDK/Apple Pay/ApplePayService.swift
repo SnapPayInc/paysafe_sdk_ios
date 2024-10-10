@@ -171,6 +171,7 @@ extension ApplePayService: ApplePayServiceProtocol {
      */
     public func beginPayment(_ product: Merchandise, cartDetails: CartDetails, completion: @escaping PaymentResultCallback) {
         guard let applePayMerchantConfiguration = self.applePayMerchantConfiguration else {
+            WebServiceHandler.postNotificationForSDKError(nil, Errors.invalidMerchantConfigurationError)
             completion(.failure(Errors.invalidMerchantConfigurationError))
             return
         }
@@ -254,6 +255,7 @@ extension ApplePayService: PKPaymentAuthorizationViewControllerDelegate {
 
         guard let payment = self.payment,
             applePaymentDidSucceed else {
+                WebServiceHandler.postNotificationForSDKError(nil, Errors.transactionFailedOrCanceled)
                 paymentCompleted?(.failure(Errors.transactionFailedOrCanceled))
                 return
         }
